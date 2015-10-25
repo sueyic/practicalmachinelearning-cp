@@ -48,8 +48,8 @@ training <- training[, -which(names(training) %in% row.names(subset(nsz, nzv==TR
 
 # Remove columns not related to measurements
 training <- training[, -which(names(training)
-                              %in% c('X', 'user_name', 'raw_timestamp_part_1', 'raw_timestamp_part_2', 
-                                     'cvtd_timestamp', 'num_window'))]
+                              %in% c('X', 'user_name', 'raw_timestamp_part_1', 
+                                     'raw_timestamp_part_2', 'cvtd_timestamp', 'num_window'))]
 ```
 
 
@@ -76,13 +76,13 @@ saveRDS(modFit, "rfModel.rds")
 summary(modFit)
 ```
 
-The model was used to predict on `training.test` in order to determine out of sample error. A confusion matrix is shown comparing predicted values of `classe` to the actual values.
+The model was used to predict on `training.test` in order to determine out of sample error. A confusion matrix was used to compare predicted values of `classe` to the actual values.
 
 ```{r eval=FALSE}
 testPredictions <- predict(modFit, newdata=training.test)
 confusionMatrix(testPredictions, training.test$classe)
 ```
-The error rates in the confusion matrix are estimates of the out of sample errors, that is, an accuracy of 0.9974 or Kappa of 0.9933.
+The error rates in the confusion matrix are estimates of the out of sample errors. That is we obtained an out of sample rate of an accuracy of 0.9974 or Kappa of 0.9933.
 
 # Run on validation set and write answers
 ```{r eval=FALSE}
