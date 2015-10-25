@@ -84,13 +84,17 @@ img {
 
 if (!file.exists('data')) { dir.create('data') }
 if (!file.exists('data/pml-training.csv') || !file.exists('data/pml-testing.csv')) {
-    download.file('https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv', destfile='data/pml-training.csv')
-    download.file('https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv', destfile='data/pml-testing.csv')
+    download.file('https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv',
+                  destfile='data/pml-training.csv')
+    download.file('https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv', 
+                  destfile='data/pml-testing.csv')
 }
 
-training = read.table('data/pml-training.csv', sep=',', header=TRUE, na.strings=c('', 'NA', '#DIV/0!'))
+training = read.table('data/pml-training.csv', sep=',', header=TRUE,
+                      na.strings=c('', 'NA', '#DIV/0!'))
 # Validation test set will be used to predict the out of sample error.
-validation = read.table('data/pml-testing.csv', sep=',', header=TRUE, na.strings=c('', 'NA', '#DIV/0!'))</code></pre>
+validation = read.table('data/pml-testing.csv', sep=',', header=TRUE,
+                        na.strings=c('', 'NA', '#DIV/0!'))</code></pre>
 <p>The following data cleaning were performed:</p>
 <ul>
 <li>Removed covariates with NA’s</li>
@@ -107,11 +111,13 @@ dim(subset(nsz, nzv==TRUE))
 training &lt;- training[, -which(names(training) %in% row.names(subset(nsz, nzv==TRUE)))]
 
 # Remove columns not related to measurements
-training &lt;- training[, -which(names(training) %in% c('X', 'user_name', 'raw_timestamp_part_1', 'raw_timestamp_part_2', 'cvtd_timestamp', 'num_window'))]</code></pre>
+training &lt;- training[, -which(names(training)
+                              %in% c('X', 'user_name', 'raw_timestamp_part_1', 
+                                     'raw_timestamp_part_2', 'cvtd_timestamp', 'num_window'))]</code></pre>
 </div>
 <div id="model-building" class="section level2">
 <h2>Model building</h2>
-<p>The training data was partitioned to <code>training.train</code> to use for training the mode, and <code>training.test</code> to test out of sample accuracy.</p>
+<p>The training data was partitioned to <code>training.train</code> to use for training the model, and <code>training.test</code> to test out of sample accuracy.</p>
 <pre class="r"><code>set.seed(3456)
 inTrain &lt;- createDataPartition(y=training$classe, p=0.7, list=FALSE)
 training.train &lt;- training[inTrain,]
@@ -124,10 +130,10 @@ modFit &lt;- train(classe ~ ., data=training.train, method=&quot;rf&quot;,
 saveRDS(modFit, &quot;rfModel.rds&quot;)
 # Show a summary of the model.
 summary(modFit)</code></pre>
-<p>The model was used to predict on <code>training.test</code> in order to determine out of sample error. A confusion matrix is shown comparing predicted values of <code>classe</code> to the actual values.</p>
+<p>The model was used to predict on <code>training.test</code> in order to determine out of sample error. A confusion matrix was used to compare predicted values of <code>classe</code> to the actual values.</p>
 <pre class="r"><code>testPredictions &lt;- predict(modFit, newdata=training.test)
 confusionMatrix(testPredictions, training.test$classe)</code></pre>
-<p>The error rates in the confusion matrix are estimates of the out of sample errors, that is, an accuracy of 0.9974 or Kappa of 0.9933.</p>
+<p>The error rates in the confusion matrix are estimates of the out of sample errors. That is we obtained an out of sample rate of an accuracy of 0.9974 or Kappa of 0.9933.</p>
 </div>
 </div>
 <div id="run-on-validation-set-and-write-answers" class="section level1">

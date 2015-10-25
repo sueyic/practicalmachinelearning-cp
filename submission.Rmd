@@ -55,7 +55,7 @@ training <- training[, -which(names(training)
 
 ## Model building
 
-The training data was partitioned to `training.train` to use for training the mode, and `training.test` to test out of sample accuracy.
+The training data was partitioned to `training.train` to use for training the model, and `training.test` to test out of sample accuracy.
 
 ```{r eval=FALSE}
 set.seed(3456)
