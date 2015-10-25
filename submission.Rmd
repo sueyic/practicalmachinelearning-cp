@@ -17,13 +17,17 @@ library(caret)
 
 if (!file.exists('data')) { dir.create('data') }
 if (!file.exists('data/pml-training.csv') || !file.exists('data/pml-testing.csv')) {
-    download.file('https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv', destfile='data/pml-training.csv')
-    download.file('https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv', destfile='data/pml-testing.csv')
+    download.file('https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv',
+                  destfile='data/pml-training.csv')
+    download.file('https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv', 
+                  destfile='data/pml-testing.csv')
 }
 
-training = read.table('data/pml-training.csv', sep=',', header=TRUE, na.strings=c('', 'NA', '#DIV/0!'))
+training = read.table('data/pml-training.csv', sep=',', header=TRUE,
+                      na.strings=c('', 'NA', '#DIV/0!'))
 # Validation test set will be used to predict the out of sample error.
-validation = read.table('data/pml-testing.csv', sep=',', header=TRUE, na.strings=c('', 'NA', '#DIV/0!'))
+validation = read.table('data/pml-testing.csv', sep=',', header=TRUE,
+                        na.strings=c('', 'NA', '#DIV/0!'))
 ```
 
 The following data cleaning were performed:
@@ -43,7 +47,9 @@ dim(subset(nsz, nzv==TRUE))
 training <- training[, -which(names(training) %in% row.names(subset(nsz, nzv==TRUE)))]
 
 # Remove columns not related to measurements
-training <- training[, -which(names(training) %in% c('X', 'user_name', 'raw_timestamp_part_1', 'raw_timestamp_part_2', 'cvtd_timestamp', 'num_window'))]
+training <- training[, -which(names(training)
+                              %in% c('X', 'user_name', 'raw_timestamp_part_1', 'raw_timestamp_part_2', 
+                                     'cvtd_timestamp', 'num_window'))]
 ```
 
 
