@@ -76,7 +76,7 @@ saveRDS(modFit, "rfModel.rds")
 summary(modFit)
 ```
 
-The model was used to predict on `training.test` in order to determine out of sample error. A confusion matrix is shown comparing predicted values of `classe` to the actual values.
+The model was used to predict on `training.test` in order to determine out of sample error. A confusion matrix is used to compare predicted values of `classe` to the actual values.
 
 ```{r eval=FALSE}
 testPredictions <- predict(modFit, newdata=training.test)
